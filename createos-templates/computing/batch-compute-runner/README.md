@@ -30,6 +30,13 @@ pip install -r requirements.txt
 python -m uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
+## Deploy on CreateOS / NodeOps
+
+- **Root directory** (if the platform asks): set to the folder that contains `app.py` (e.g. `batch-compute-runner` when the zip has that subfolder). Otherwise the app will fail with "No module named 'app'".
+- **Start command** — use **one** of these (FastAPI is ASGI; do not use plain `gunicorn app:app`):
+  - **Uvicorn (recommended):** `uvicorn app:app --host 0.0.0.0 --port $PORT`
+  - **Gunicorn + Uvicorn worker** (if the platform uses Gunicorn): `gunicorn app:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT`
+
 ## Environment variables
 
 | Variable | Description | Default |
